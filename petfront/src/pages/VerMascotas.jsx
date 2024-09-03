@@ -10,6 +10,7 @@ import { fetchBody, fetchGet } from '../utils/fetch';
 import LabelInputEdit from '../components/LabelInputEdit';
 import Button from '../components/Button';
 import ContenedorForms from '../components/ContenedorForms';
+import SelectEdit from '../components/SelectEdit';
 
 function VerMascotas() {
     const { changeDocumento, changeNombre, changeRaza, changeEdad, changePeso } = useContext(GeneralContext)
@@ -18,11 +19,61 @@ function VerMascotas() {
     const [selectedMascota, setSelectedMascota] = useState(null);
     const [backgroundOpacity] = useState(0.5);
 
+    const [clientes, setClientes] = useState([]);
+    const [clienteActual, setClienteActual] = useState(null);
+
+    const [clientesSelect, setClienteSelect] = useState([]);
+    const [clienteSeleccionado, setClienteSeleccionado] = useState("");
+
+    useEffect(() => {
+        const obtenerClientes = async () => {
+            try {
+                const respuesta = await fetchGet('/clientes/listar');
+                if (respuesta.exito) {
+                    const clientesFormateados = respuesta.lista.map(cliente => ({
+                        id: cliente.cedula,
+                        nombre: cliente.cedula
+                    }));
+                    setClienteSelect(clientesFormateados);
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: respuesta.error,
+                        customClass: {
+                            confirmButton: 'btn-color'
+                        },
+                        buttonsStyling: false
+                    });
+                }
+            } catch (error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: 'Error al procesar la solicitud para listar los clientes',
+                    customClass: {
+                        confirmButton: 'btn-color'
+                    },
+                    buttonsStyling: false
+                });
+            }
+        }
+        obtenerClientes();
+    }, []);
+
+    const handleSelectChange = (event) => {
+        setClienteSeleccionado(event.target.value); // Actualizar el estado con el cliente seleccionado
+    };
+
     useEffect(() => {
         listMascotas();
     }, []);
 
     const openEditModal = (mascota) => {
+        console.log('hola soy mascota');
+        console.log(mascota);
+        const clienteAsociado = clientesSelect.find(cliente => cliente.nombre === mascota.cliente);
+        setClienteSeleccionado(clienteAsociado ? clienteAsociado.id : "");
         setSelectedMascota(mascota);
         setEditModalOpen(true);
     };
@@ -63,6 +114,7 @@ function VerMascotas() {
     async function handleEdit(id) {
         const mascotaToEdit = mascotas.find(mascota => mascota.id === id);
         if (mascotaToEdit) {
+            //console.log(mascotaToEdit.id);
             openEditModal(mascotaToEdit);
         } else {
             Swal.fire({
@@ -154,8 +206,11 @@ function VerMascotas() {
                 nombre: nombre,
                 raza: raza,
                 edad: edad,
-                peso: peso
+                peso: peso,
+                cliente: clienteSeleccionado,
+                medicamento: 'Acetaminofen'
             }
+            console.log(data);
             const respuesta = await fetchBody("/mascotas/editar", "PUT", data);
             if (respuesta.exito) {
                 Swal.fire({
@@ -231,6 +286,15 @@ function VerMascotas() {
                                 <LabelInputEdit id="mascotaRaza" texto="Raza" eventoCambio={changeRaza} valorInicial={selectedMascota.raza}></LabelInputEdit>
                                 <LabelInputEdit id="mascotaEdad" texto="Edad" eventoCambio={changeEdad} valorInicial={selectedMascota.edad}></LabelInputEdit>
                                 <LabelInputEdit id="mascotaPeso" texto="Peso" eventoCambio={changePeso} valorInicial={selectedMascota.peso}></LabelInputEdit>
+
+                                <SelectEdit
+                                    titulo="Cliente"
+                                    opciones={clientesSelect}
+                                    eventoCambio={handleSelectChange}
+                                    id="selectCliente"
+                                    valorInicial={clienteSeleccionado} // Preselecciona el cliente actual
+                                />
+
                             </div>
                             <br />
                             <Button clase="ButtonNavEdit" eventoClick={() => editMascota(selectedMascota.id)}>Editar</Button>
