@@ -1,25 +1,22 @@
-
 import Contenedor from '../components/Contenedor'
-import { MdOutlinePets } from "react-icons/md";
+import { GiMedicines } from "react-icons/gi";
 import ButtonLink from '../components/ButtonLink';
 
-function Principal() {
-
+function Medicamentos() {
     return (
         <div>
 
             <div className='principal-container'>
                 <Contenedor animate={true}>
                     <div className='flex'>
-                        <MdOutlinePets className='icon-pet' />
-                        <h1 className='titulo'>PET SAS</h1>
-                        <MdOutlinePets className='icon-pet' />
+                        <GiMedicines className='icon-pet' />
+                        <h1 className='titulo'>Medicamentos</h1>
+                        <GiMedicines className='icon-pet' />
                     </div>
                     <div>
-                        <div><ButtonLink destino="/clientes" clase="ButtonNav">Clientes</ButtonLink></div>
-                        <div><ButtonLink destino="/medicamentos" clase="ButtonNav">Medicamentos</ButtonLink></div>
-                        <div><ButtonLink destino="/mascotas" clase="ButtonNav">Mascotas</ButtonLink></div>
-                        <div><ButtonLink destino="/reporte" clase="ButtonNav">Reporte</ButtonLink></div>
+                        <div><ButtonLink destino="/crearMedicamentos" clase="ButtonNav">Crear Medicamento</ButtonLink></div>
+                        <div><ButtonLink destino="/verMedicamentos" clase="ButtonNav">Ver Medicamentos</ButtonLink></div>
+                        <div><ButtonLink destino="/" clase="ButtonNavRegresar">Regresar</ButtonLink></div>
                     </div>
                 </Contenedor>
 
@@ -32,8 +29,7 @@ function Principal() {
                 </svg>
             </div>
         </div>
-
     )
 }
 
-export default Principal
+export default Medicamentos

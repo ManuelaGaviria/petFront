@@ -1,25 +1,22 @@
-
 import Contenedor from '../components/Contenedor'
-import { MdOutlinePets } from "react-icons/md";
+import { LuDog } from "react-icons/lu";
 import ButtonLink from '../components/ButtonLink';
 
-function Principal() {
-
+function Mascotas() {
     return (
         <div>
 
             <div className='principal-container'>
                 <Contenedor animate={true}>
                     <div className='flex'>
-                        <MdOutlinePets className='icon-pet' />
-                        <h1 className='titulo'>PET SAS</h1>
-                        <MdOutlinePets className='icon-pet' />
+                        <LuDog className='icon-pet' />
+                        <h1 className='titulo'>Mascotas</h1>
+                        <LuDog className='icon-pet' />
                     </div>
                     <div>
-                        <div><ButtonLink destino="/clientes" clase="ButtonNav">Clientes</ButtonLink></div>
-                        <div><ButtonLink destino="/medicamentos" clase="ButtonNav">Medicamentos</ButtonLink></div>
-                        <div><ButtonLink destino="/mascotas" clase="ButtonNav">Mascotas</ButtonLink></div>
-                        <div><ButtonLink destino="/reporte" clase="ButtonNav">Reporte</ButtonLink></div>
+                        <div><ButtonLink destino="/crearMascotas" clase="ButtonNav">Crear Mascota</ButtonLink></div>
+                        <div><ButtonLink destino="/verMascotas" clase="ButtonNav">Ver Mascotas</ButtonLink></div>
+                        <div><ButtonLink destino="/" clase="ButtonNavRegresar">Regresar</ButtonLink></div>
                     </div>
                 </Contenedor>
 
@@ -32,8 +29,7 @@ function Principal() {
                 </svg>
             </div>
         </div>
-
     )
 }
 
-export default Principal
+export default Mascotas
