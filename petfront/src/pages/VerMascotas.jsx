@@ -19,11 +19,11 @@ function VerMascotas() {
     const [selectedMascota, setSelectedMascota] = useState(null);
     const [backgroundOpacity] = useState(0.5);
 
-    const [clientes, setClientes] = useState([]);
-    const [clienteActual, setClienteActual] = useState(null);
-
     const [clientesSelect, setClienteSelect] = useState([]);
     const [clienteSeleccionado, setClienteSeleccionado] = useState("");
+
+    const [medicamentosSelect, setMedicamentoSelect] = useState([]);
+    const [medicamentoSeleccionado, setMedicamentoSeleccionado] = useState("");
 
     useEffect(() => {
         const obtenerClientes = async () => {
@@ -61,8 +61,48 @@ function VerMascotas() {
         obtenerClientes();
     }, []);
 
+    useEffect(() => {
+        const obtenerMedicamentos = async () => {
+            try {
+                const respuesta = await fetchGet('/medicamentos/listar');
+                if (respuesta.exito) {
+                    const medicamentosFormateados = respuesta.lista.map(medicamento => ({
+                        id: medicamento.nombre,
+                        nombre: medicamento.nombre
+                    }));
+                    setMedicamentoSelect(medicamentosFormateados);
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: respuesta.error,
+                        customClass: {
+                            confirmButton: 'btn-color'
+                        },
+                        buttonsStyling: false
+                    });
+                }
+            } catch (error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: 'Error al procesar la solicitud para listar los medicamentos',
+                    customClass: {
+                        confirmButton: 'btn-color'
+                    },
+                    buttonsStyling: false
+                });
+            }
+        }
+        obtenerMedicamentos();
+    }, []);
+
     const handleSelectChange = (event) => {
         setClienteSeleccionado(event.target.value); // Actualizar el estado con el cliente seleccionado
+    };
+
+    const handleSelectChangeMed = (event) => {
+        setMedicamentoSeleccionado(event.target.value); // Actualizar el estado con el medicamento seleccionado
     };
 
     useEffect(() => {
@@ -73,7 +113,9 @@ function VerMascotas() {
         console.log('hola soy mascota');
         console.log(mascota);
         const clienteAsociado = clientesSelect.find(cliente => cliente.nombre === mascota.cliente);
+        const medicamentoAsociado = medicamentosSelect.find(medicamento => medicamento.nombre === mascota.medicamento);
         setClienteSeleccionado(clienteAsociado ? clienteAsociado.id : "");
+        setMedicamentoSeleccionado(medicamentoAsociado ? medicamentoAsociado.id : "");
         setSelectedMascota(mascota);
         setEditModalOpen(true);
     };
@@ -208,7 +250,7 @@ function VerMascotas() {
                 edad: edad,
                 peso: peso,
                 cliente: clienteSeleccionado,
-                medicamento: 'Acetaminofen'
+                medicamento: medicamentoSeleccionado
             }
             console.log(data);
             const respuesta = await fetchBody("/mascotas/editar", "PUT", data);
@@ -286,7 +328,13 @@ function VerMascotas() {
                                 <LabelInputEdit id="mascotaRaza" texto="Raza" eventoCambio={changeRaza} valorInicial={selectedMascota.raza}></LabelInputEdit>
                                 <LabelInputEdit id="mascotaEdad" texto="Edad" eventoCambio={changeEdad} valorInicial={selectedMascota.edad}></LabelInputEdit>
                                 <LabelInputEdit id="mascotaPeso" texto="Peso" eventoCambio={changePeso} valorInicial={selectedMascota.peso}></LabelInputEdit>
-
+                                <SelectEdit
+                                    titulo="Medicamento"
+                                    opciones={medicamentosSelect}
+                                    eventoCambio={handleSelectChangeMed}
+                                    id="selectMedicamento"
+                                    valorInicial={medicamentoSeleccionado} // Preselecciona el cliente actual
+                                />
                                 <SelectEdit
                                     titulo="Cliente"
                                     opciones={clientesSelect}
