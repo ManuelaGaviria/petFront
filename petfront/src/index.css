@@ -79,6 +79,25 @@ code {
   font-size: 40px;
 }
 
+.ButtonNavPDF{
+  cursor: pointer;
+  font-family: "Nerko One", cursive;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 35px;
+  background-color: #7e1818;
+  color: white;
+  padding: 5px 10px 5px 10px;
+  border-radius: 15px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+
+.ButtonNavPDF:hover {
+  font-size: 40px;
+  transition: 0.3s;
+}
+
 .ButtonNav {
   cursor: pointer;
   font-family: "Nerko One", cursive;
@@ -319,5 +338,6 @@ code {
   text-align: center;
   border: 3px solid rgb(0, 0, 0);
 }
+
 
 

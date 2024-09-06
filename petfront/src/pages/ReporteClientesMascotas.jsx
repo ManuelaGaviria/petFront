@@ -4,6 +4,8 @@ import Swal from 'sweetalert2';
 import FullscreenCard from '../components/FullScreenCard';
 import { motion } from 'framer-motion';
 import ButtonLink from '../components/ButtonLink';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 function ReporteClientesMascotas() {
     const [reporte, setReporte] = useState([]);
@@ -42,6 +44,41 @@ function ReporteClientesMascotas() {
         obtenerReporte();
     }, []);
 
+    const handleGeneratePDF = () => {
+        const doc = new jsPDF();
+        doc.setFontSize(12);
+
+        // Agregar título
+        doc.text('Reporte de Clientes y Mascotas', 14, 20);
+
+        // Definir los datos de la tabla
+        const tableColumns = ['Cliente', 'Cédula', 'Mascota', 'Medicamento', 'Dosis'];
+        const tableData = [];
+
+        reporte.forEach(cliente => {
+            if (cliente.mascotas.length === 0) {
+                tableData.push([cliente.cliente, cliente.cedula, 'No tiene mascotas', '', '']);
+            } else {
+                cliente.mascotas.forEach(mascota => {
+                    tableData.push([cliente.cliente, cliente.cedula, mascota.nombre, mascota.medicamento, mascota.dosis]);
+                });
+            }
+        });
+
+        // Generar tabla
+        doc.autoTable({
+            startY: 30,
+            head: [tableColumns],
+            body: tableData,
+            theme: 'grid',
+            margin: { top: 30 },
+            styles: { overflow: 'linebreak' }
+        });
+
+        // Guardar PDF
+        doc.save('reporte-clientes-medicamentos.pdf');
+    };
+
     return (
         <div>
             <h1 className="titulo">Reporte de Clientes y Mascotas</h1>
@@ -54,7 +91,7 @@ function ReporteClientesMascotas() {
 
                 <FullscreenCard>
                     <div className="CenterTable">
-                        <table className="ReportTable">
+                        <table id="report-table" className="ReportTable">
                             <thead>
                                 <tr>
                                     <th style={{ width: '200px' }}>Cliente</th>
@@ -98,6 +135,7 @@ function ReporteClientesMascotas() {
                         </table>
                     </div>
                     <ButtonLink destino="/" clase="ButtonNavRegresar">Regresar</ButtonLink>
+                    <button onClick={handleGeneratePDF} className="ButtonNavPDF">Generar PDF</button>
                 </FullscreenCard>
             </motion.div>
         </div>
