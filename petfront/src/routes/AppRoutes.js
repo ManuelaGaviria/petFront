@@ -4,13 +4,13 @@ import Principal from "../pages/Principal";
 import Clientes from "../pages/Clientes";
 import Medicamentos from "../pages/Medicamentos";
 import Mascotas from "../pages/Mascotas";
-import Reportes from "../pages/Reportes";
 import VerClientes from "../pages/VerClientes";
 import CrearClientes from "../pages/CrearClientes";
 import VerMedicamentos from "../pages/VerMedicamentos";
 import CrearMedicamentos from "../pages/CrearMedicamentos";
 import VerMascotas from "../pages/VerMascotas";
 import CrearMascotas from "../pages/CrearMascotas";
+import ReporteClientesMascotas from "../pages/ReporteClientesMascotas";
 
 function AppRoutes() {
     const location = useLocation();
@@ -32,7 +32,7 @@ function AppRoutes() {
                 <Route exact path="/verMascotas" element={<VerMascotas></VerMascotas>}></Route>
                 <Route exact path="/crearMascotas" element={<CrearMascotas></CrearMascotas>}></Route>
 
-                <Route exact path="/reportes" element={<Reportes></Reportes>}></Route>
+                <Route exact path="/reporte" element={<ReporteClientesMascotas></ReporteClientesMascotas>}></Route>
 
             </Routes>
         </AnimatePresence>

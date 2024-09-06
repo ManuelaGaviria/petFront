@@ -307,3 +307,17 @@ code {
 .opcion{
   padding-left: 20px;
 }
+
+.ReportTable {
+  border-collapse: collapse;
+  background-color: white;
+  border: 3px solid rgb(0, 0, 0);
+}
+
+.ReportTable th, .ReportTable td {
+  padding: 8px;
+  text-align: center;
+  border: 3px solid rgb(0, 0, 0);
+}
+
+
