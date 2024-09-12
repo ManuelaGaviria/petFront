@@ -81,7 +81,7 @@ function ReporteClientesMascotas() {
 
     return (
         <div>
-            <h1 className="titulo">Reporte de Clientes y Mascotas</h1>
+            <h1 className="titulo">Reporte de Clientes, Medicamentos y Mascotas</h1>
             <motion.div
                 className='ContainerFull'
                 initial={{ opacity: 0, x: 1000 }} // Inicia desde la derecha
