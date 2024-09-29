@@ -20,6 +20,7 @@ function Principal() {
                         <div><ButtonLink destino="/medicamentos" clase="ButtonNav">Medicamentos</ButtonLink></div>
                         <div><ButtonLink destino="/mascotas" clase="ButtonNav">Mascotas</ButtonLink></div>
                         <div><ButtonLink destino="/reporte" clase="ButtonNav">Reporte</ButtonLink></div>
+                        <div><ButtonLink destino="/xml" clase="ButtonNav">XML</ButtonLink></div>
                     </div>
                 </Contenedor>
 

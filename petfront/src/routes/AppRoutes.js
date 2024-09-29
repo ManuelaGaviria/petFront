@@ -11,6 +11,7 @@ import CrearMedicamentos from "../pages/CrearMedicamentos";
 import VerMascotas from "../pages/VerMascotas";
 import CrearMascotas from "../pages/CrearMascotas";
 import ReporteClientesMascotas from "../pages/ReporteClientesMascotas";
+import XML from "../pages/XML";
 
 function AppRoutes() {
     const location = useLocation();
@@ -33,6 +34,7 @@ function AppRoutes() {
                 <Route exact path="/crearMascotas" element={<CrearMascotas></CrearMascotas>}></Route>
 
                 <Route exact path="/reporte" element={<ReporteClientesMascotas></ReporteClientesMascotas>}></Route>
+                <Route exact path="/xml" element={<XML></XML>}></Route>
 
             </Routes>
         </AnimatePresence>
